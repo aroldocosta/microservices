@@ -1,6 +1,7 @@
 package com.oficinabr.controller;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,14 +11,16 @@ import com.oficinabr.converters.NumberConverter;
 import com.oficinabr.exception.DivisionByZeroException;
 import com.oficinabr.exception.NegativeNumberException;
 import com.oficinabr.exception.UnsupportedMathOperationException;
-import com.oficinabr.math.SimpleMath;
-  
+import com.oficinabr.math.MathService;
+ 
 
 
 @RestController
 public class MathController {
 	
-	SimpleMath math = new SimpleMath();
+
+	@Autowired
+	private MathService mathService;
 
 	@RequestMapping(value="sum/{numberOne}/{numberTwo}", method=RequestMethod.GET)
 	public Double sum(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo ) throws Exception {
@@ -27,7 +30,7 @@ public class MathController {
 		Double num01 = NumberConverter.convertToDouble(numberOne);
 		Double num02 = NumberConverter.convertToDouble(numberTwo);
 
-		return math.sum(num01, num02);
+		return mathService.sum(num01, num02);
 	}
 	
 	@RequestMapping(value="/sub/{numberOne}/{numberTwo}", method=RequestMethod.GET)
@@ -38,7 +41,7 @@ public class MathController {
 		Double num01 = NumberConverter.convertToDouble(numberOne);
 		Double num02 = NumberConverter.convertToDouble(numberTwo);
 
-		return math.sub(num01, num02);
+		return mathService.sub(num01, num02);
 	}
 	
 	@RequestMapping(value="/mul/{numberOne}/{numberTwo}", method=RequestMethod.GET)
@@ -49,7 +52,7 @@ public class MathController {
 		Double num01 = NumberConverter.convertToDouble(numberOne);
 		Double num02 = NumberConverter.convertToDouble(numberTwo);
 
-		return math.mul(num01, num02);
+		return mathService.mul(num01, num02);
 	}
 	
 	@RequestMapping(value="/div/{numberOne}/{numberTwo}", method=RequestMethod.GET)
@@ -64,7 +67,7 @@ public class MathController {
 		Double num01 = NumberConverter.convertToDouble(numberOne);
 		Double num02 = NumberConverter.convertToDouble(numberTwo);
 
-		return math.div(num01, num02);
+		return mathService.div(num01, num02);
 	}
 	
 	@RequestMapping(value="/med/{numberOne}/{numberTwo}", method=RequestMethod.GET)
@@ -75,7 +78,7 @@ public class MathController {
 		Double num01 = NumberConverter.convertToDouble(numberOne);
 		Double num02 = NumberConverter.convertToDouble(numberTwo);
 
-		return math.med(num01, num02);
+		return mathService.med(num01, num02);
 	}
 	
 	@RequestMapping(value="/sqrt/{numberOne}", method=RequestMethod.GET)
@@ -90,6 +93,6 @@ public class MathController {
 		
 		Double num01 = NumberConverter.convertToDouble(numberOne);
 
-		return math.sqrt(num01);
+		return mathService.sqrt(num01);
 	}
 }

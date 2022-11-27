@@ -1,6 +1,9 @@
 package com.oficinabr.math;
 
-public class SimpleMath {
+import org.springframework.stereotype.Service;
+
+@Service
+public class MathService {
 	
 	public Double sum(Double numberOne, Double numberTwo) {
 		return numberOne + numberTwo;
