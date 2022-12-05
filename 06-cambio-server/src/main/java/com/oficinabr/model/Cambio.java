@@ -4,26 +4,46 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
+
+@Entity(name = "cambio")
 public class Cambio implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name = "from_currency", nullable = false, length = 3)
 	private String from;
+	
+	@Column(name = "to_currency", nullable = false, length = 3)
 	private String to;
+	
+	@Column(nullable =  false)
 	BigDecimal conversionFactor;
-	BigDecimal conversionValue;
+	
+	@Transient
+	BigDecimal convertedValue;
+	
+	@Transient
 	String environment;
 	
 	public Cambio() { }
 	
 	public Cambio(Long id, String from, String to, BigDecimal conversionFactor, 
-			BigDecimal conversionValue, String environment) {
+			BigDecimal convertedValue, String environment) {
 		this.id = id;
 		this.from = from;
 		this.to = to;
 		this.conversionFactor = conversionFactor;
-		this.conversionValue = conversionValue;
+		this.convertedValue = convertedValue;
 		this.environment = environment;
 	}
 
@@ -59,12 +79,12 @@ public class Cambio implements Serializable{
 		this.conversionFactor = conversionFactor;
 	}
 
-	public BigDecimal getConversionValue() {
-		return conversionValue;
+	public BigDecimal getConvertedValue() {
+		return convertedValue;
 	}
 
-	public void setConversionValue(BigDecimal conversionValue) {
-		this.conversionValue = conversionValue;
+	public void setConvertedValue(BigDecimal convertedValue) {
+		this.convertedValue = convertedValue;
 	}
 
 	public String getEnvironment() {
@@ -77,7 +97,7 @@ public class Cambio implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(conversionFactor, conversionValue, environment, from, id, to);
+		return Objects.hash(conversionFactor, convertedValue, environment, from, id, to);
 	}
 
 	@Override
@@ -90,7 +110,7 @@ public class Cambio implements Serializable{
 			return false;
 		Cambio other = (Cambio) obj;
 		return Objects.equals(conversionFactor, other.conversionFactor)
-				&& Objects.equals(conversionValue, other.conversionValue)
+				&& Objects.equals(convertedValue, other.convertedValue)
 				&& Objects.equals(environment, other.environment) && Objects.equals(from, other.from)
 				&& Objects.equals(id, other.id) && Objects.equals(to, other.to);
 	}
