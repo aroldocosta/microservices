@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.oficinabr.model.Book;
+import com.oficinabr.proxy.CambioProxy;
 import com.oficinabr.repository.BookRepository;
-import com.oficinabr.response.CambioDTO;
+import com.oficinabr.response.Cambio;
 
 @RestController
 @RequestMapping("book-service")
@@ -23,6 +24,9 @@ public class BookController {
 	
 	@Autowired
 	private BookRepository bookRepository;
+	
+	@Autowired
+	private CambioProxy cambioProxy;
 	
 	@GetMapping(value = "/{id}/{currency}")
 	public Book findByIdAndCurrency(
@@ -36,25 +40,26 @@ public class BookController {
 		
 		if( book == null ) throw new RuntimeException("Book not found");
 		
-		HashMap<String, String> params = new HashMap<>();
-		params.put("amount", book.getPrice().toString());
-		params.put("from" , "USD");
-		params.put("to", currency);
+//		HashMap<String, String> params = new HashMap<>();
+//		params.put("amount", book.getPrice().toString());
+//		params.put("from" , "USD");
+//		params.put("to", currency);
+//		
 		
+//		var response = new RestTemplate()
+//				.getForEntity("http://localhost:8000/cambio-service/"
+//						+ "{amount}/{from}/{to}", 
+//						Cambio.class,
+//				params);
+//		
+//		var cambio = response.getBody();
+//		
+//	
+//		var price = cambio.getConvertedValue();
 		
-		var response = new RestTemplate()
-				.getForEntity("http://localhost:8000/cambio-service/"
-						+ "{amount}/{from}/{to}", 
-						CambioDTO.class,
-				params);
+		var cambio = cambioProxy.getCambio(book.getPrice(), "USD", "BRL");
 		
-		var cambioDTO = response.getBody();
-		
-		System.out.println("===================================\n " + response.getBody().getConvertedValue());
-		
-		var price = cambioDTO.getConvertedValue();
-		
-		System.out.println("===================================\n " + price);
+		var price = cambio.getConvertedValue();
 
 		book.setPrice(price);
 		

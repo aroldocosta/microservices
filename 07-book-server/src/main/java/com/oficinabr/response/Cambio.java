@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 
 
-public class CambioDTO {
+public class Cambio {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,9 +24,9 @@ public class CambioDTO {
 	BigDecimal convertedValue;
 	String environment;
 	
-	public CambioDTO() { }
+	public Cambio() { }
 	
-	public CambioDTO(Long id, String from, String to, BigDecimal conversionFactor, 
+	public Cambio(Long id, String from, String to, BigDecimal conversionFactor, 
 			BigDecimal convertedValue, String environment) {
 		this.id = id;
 		this.from = from;
@@ -97,7 +97,7 @@ public class CambioDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CambioDTO other = (CambioDTO) obj;
+		Cambio other = (Cambio) obj;
 		return Objects.equals(conversionFactor, other.conversionFactor)
 				&& Objects.equals(convertedValue, other.convertedValue)
 				&& Objects.equals(environment, other.environment) && Objects.equals(from, other.from)
