@@ -1,19 +1,15 @@
 package com.oficinabr.controller;
 
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.oficinabr.model.Book;
 import com.oficinabr.proxy.CambioProxy;
 import com.oficinabr.repository.BookRepository;
-import com.oficinabr.response.Cambio;
 
 @RestController
 @RequestMapping("book-service")
@@ -46,7 +42,9 @@ public class BookController {
 
 		book.setPrice(price);
 		
-		book.setEnvironment(port);
+		book.setEnvironment(
+				"Book port: " + port + 
+				" Cambio port: " + cambio.getEnvironment());
 		
 		return book;
 
